@@ -115,14 +115,21 @@ const finalPromise = (n)=>{
     });
 }
 
-Promise.all([delay(2, 0), delay(2, 1), delay(2, 2), finalPromise(2)])
-.then((result)=>{
-    console.log(result);
-})
-.catch((error)=>{
-    console.log(error);
-});
 
+const promiseChain = (n)=>{
+    let promiseArray = [];
+    for(let i = 0; i < n; i++){
+        promiseArray.push(delay(n, i));
+    }
+    return Promise.all(promiseArray)
+    .then((result)=>{
+        return finalPromise(n);
+    })
+}
+
+promiseChain(5).then((result)=>{
+    console.log(result);
+});
 
 
 // Ejercicio 5: Promesa con Cancelación
